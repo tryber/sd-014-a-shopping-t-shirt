@@ -9,13 +9,11 @@ const btnFiltro = document.getElementById('btn-search');
 
 // filtrando no input
 btnFiltro.addEventListener('click', () => {
-  let textoFiltro = filtro.value; //peguei o valor do elemento
-  // console.log(textoFiltro);
-  filtrarProdutos(textoFiltro)
+  filtrarProdutos(filtro.value)
 
 })
 
-const filtrarProdutos = async (Textofiltro) => {
+const filtrarProdutos = (Textofiltro) => {
   listagemDeProdutos = listagemDeProdutos.filter((produto) => produto.title.toUpperCase().includes(Textofiltro.toUpperCase()));  // jogamos as letras em caixa baixa para fazer a comparação, isso é muito importante para o resultado final. 
   preencheListaDeProdutos();
 
@@ -23,16 +21,18 @@ const filtrarProdutos = async (Textofiltro) => {
 } 
 
 
-
-
 listaOrdenacao.addEventListener('change', async (event) => {
-  let ordem = event.target.value;
-  await ordenaPorPreco(ordem);
+  await ordenaPorPreco(event.target.value);
 })
 
-listaGenero.addEventListener('change', async (event) => {
+
+
+listaGenero.addEventListener('change', (event) => {
   let genero = event.target.value;
-  await buscaProdutos(genero);
+  // console.log(genero);
+  filtro.value = ''; // esvaziando a caixa do input
+  listaOrdenacao.value = 'relevancia'; // mudando o valor dos peços quando o genero do produto for mudado
+  buscaProdutos(genero);
 })
 
 const listaProduto = (srcImagen, descricaoProduto, precoDoProduto) => {
@@ -65,7 +65,7 @@ const listaProduto = (srcImagen, descricaoProduto, precoDoProduto) => {
   infoProduto.appendChild(precoProduto);
 
   divListagem.appendChild(infoProduto);
-}
+};
 
 
 const ordenaPorPreco = (ordem) => {
@@ -109,8 +109,8 @@ const preencheListaDeProdutos = () => {
   listagemDeProdutos.forEach((produto) => {
   // console.log(produto.title, produto.price);
     listaProduto(produto.thumbnail, produto.title, produto.price)
-  })
-}
+  });
+};
 
 
 
