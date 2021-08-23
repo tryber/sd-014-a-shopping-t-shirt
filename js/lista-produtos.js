@@ -3,6 +3,27 @@ let listagemDeProdutos = [];
 const divListagem = document.getElementById('listagem');
 const listaGenero = document.getElementById('genero');
 const listaOrdenacao = document.getElementById('ordem');
+const filtro = document.getElementById('search');
+const btnFiltro = document.getElementById('btn-search');
+
+
+// filtrando no input
+btnFiltro.addEventListener('click', () => {
+  let textoFiltro = filtro.value; //peguei o valor do elemento
+  // console.log(textoFiltro);
+  filtrarProdutos(textoFiltro)
+
+})
+
+const filtrarProdutos = async (Textofiltro) => {
+  listagemDeProdutos = listagemDeProdutos.filter((produto) => produto.title.toUpperCase().includes(Textofiltro.toUpperCase()));  // jogamos as letras em caixa baixa para fazer a comparação, isso é muito importante para o resultado final. 
+  preencheListaDeProdutos();
+
+  // peguei o meu proprio array e estou atualizando ele
+} 
+
+
+
 
 listaOrdenacao.addEventListener('change', async (event) => {
   let ordem = event.target.value;
