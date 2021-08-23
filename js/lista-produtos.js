@@ -1,6 +1,20 @@
-const divListagem = document.getElementById('listagem');
+let listagemDeProdutos = [];
 
-const listaProdutos = (srcImagen, descricaoProduto, precoProdutoo) => {
+const divListagem = document.getElementById('listagem');
+const listaGenero = document.getElementById('genero');
+const listaOrdenacao = document.getElementById('ordem');
+
+listaOrdenacao.addEventListener('change', async (event) => {
+  let ordem = event.target.value;
+  await ordenaPorPreco(ordem);
+})
+
+listaGenero.addEventListener('change', async (event) => {
+  let genero = event.target.value;
+  await buscaProdutos(genero);
+})
+
+const listaProduto = (srcImagen, descricaoProduto, precoDoProduto) => {
   const infoProduto = document.createElement('div');
   const imagem = document.createElement('img');
   const tituloProduto = document.createElement('h2');
@@ -17,12 +31,12 @@ const listaProdutos = (srcImagen, descricaoProduto, precoProdutoo) => {
 
   tituloProduto.className = 'desc_produto'
   // tituloProduto.innerHTML = descricaoProduto;
-  tituloProduto.innerHTML = descricaoProduto.slice(0, 37) + '...'; //arrumou o testo dos produtos
+  tituloProduto.innerText = descricaoProduto.slice(0, 37) + '...'; //arrumou o testo dos produtos
 
 
   precoProduto.className = 'preco_produto';
-  precoProduto.innerHTML = precoProdutoo;
-  precoProduto.innerHTML = Intl.NumberFormat('pt-br', {style:'currency', currency: 'BRL'}).format(precoProdutoo);
+  // precoProduto.innerHTML = precoDoProduto;
+  precoProduto.innerText = Intl.NumberFormat('pt-br',{style:'currency', currency: 'BRL'}).format(precoDoProduto);
 
 
   infoProduto.appendChild(imagem);
@@ -33,6 +47,17 @@ const listaProdutos = (srcImagen, descricaoProduto, precoProdutoo) => {
 }
 
 
+const ordenaPorPreco = (ordem) => {
+  if(ordem === 'menor-preco') {
+    listagemDeProdutos.sort((a,b) => a.price -b.price); // ordenando do maior para o menor
+  }
+
+  if(ordem === 'maior-preco') {
+    listagemDeProdutos.sort((a,b) => b.price - a.price); // ordenando do maior para o menor
+  }
+
+  preencheListaDeProdutos();
+};
 
 
 
@@ -55,15 +80,25 @@ const listaProdutos = (srcImagen, descricaoProduto, precoProdutoo) => {
 
 // transformando em json
 //  usando com async -o code fica mais bonito
-const buscaProdutos = async (genero) => {
-  const listaDeProdutos = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${genero}`);
-  const listaDeProdutosJson = await listaDeProdutos.json();
-  // console.log(listaDeProdutosJson.results);
-  // forEach vai passar pelo meu array results que estao dentro do json 
-  listaDeProdutosJson.results.forEach((produto) => {
+
+
+const preencheListaDeProdutos = () => {
+  divListagem.innerHTML ="";
+   // forEach vai passar pelo meu array results que estao dentro do json 
+  listagemDeProdutos.forEach((produto) => {
   // console.log(produto.title, produto.price);
     listaProduto(produto.thumbnail, produto.title, produto.price)
   })
+}
+
+
+
+const buscaProdutos = async (genero) => {
+  const listaDeProdutos = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${genero}`);
+  const listaDeProdutosJson = await listaDeProdutos.json();
+  // console.log(listaDeProdutosJson.results);  
+  listagemDeProdutos = listaDeProdutosJson.results;
+  preencheListaDeProdutos();
 }
 
 window.onload = () => {
