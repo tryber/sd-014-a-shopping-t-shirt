@@ -4,7 +4,8 @@
   "description": "Projeto para revisão geral dos blocos 8, 9 e 10 - Semana de ficar on-track",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js,.jsx"
   },
   "repository": {
     "type": "git",
