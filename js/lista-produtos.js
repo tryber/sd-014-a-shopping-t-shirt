@@ -1,3 +1,5 @@
+const { buscaProdutos } = require('./lista-produtos-servicos');
+
 let listagemDeProdutos = [];
 
 const divListagem = document.getElementById('listagem');
@@ -69,15 +71,6 @@ listaOrdenacao.addEventListener('change', async (event) => {
   await ordenaPorPreco(event.target.value);
 });
 
-const buscaProdutos = async (genero) => {
-  const listaDeProdutos = await fetch(
-    `https://api.mercadolibre.com/sites/MLB/search?q=${genero}`,
-  );
-  const listaDeProdutosJson = await listaDeProdutos.json();
-  listagemDeProdutos = listaDeProdutosJson.results;
-  preencheListaDeProdutos();
-};
-
 listaGenero.addEventListener('change', (event) => {
   const genero = event.target.value;
   console.log(genero);
@@ -86,6 +79,8 @@ listaGenero.addEventListener('change', (event) => {
   buscaProdutos(genero);
 });
 
-window.onload = () => {
-  buscaProdutos('camisas-infantil');
-};
+buscaProdutos('camisas-infantil')
+  .then((results) => {
+    listagemDeProdutos = results;
+    preencheListaDeProdutos();
+  });
