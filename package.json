@@ -4,7 +4,7 @@
   "description": "Projeto para revisão geral dos blocos 8, 9 e 10 - Semana de ficar on-track",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js,.jsx"
   },
   "repository": {
@@ -22,6 +22,7 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-trybe-fundamentals": "^1.1.1",
     "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-sonarjs": "^0.9.1"
+    "eslint-plugin-sonarjs": "^0.9.1",
+    "jest": "^27.0.6"
   }
 }
