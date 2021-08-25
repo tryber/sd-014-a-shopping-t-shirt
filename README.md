@@ -8,3 +8,7 @@ Criar uma página de produtos para a empresa T-Shirt onde seja possivel carregar
 Essa é a página de exemplo do projeto final
 
 ![Project Gif](./img/paginaProdutos.png)
+
+Os produtos devem ser posicionados na página seguindo essa estrutura
+
+![Project Gif](./img/estruturaProdutoNaPagina.png)
