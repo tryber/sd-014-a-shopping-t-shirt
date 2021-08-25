@@ -24,6 +24,7 @@ const criaImagemProduto = (src) => {
   return imagem;
 };
 
+// Funçao para criar o elemento html com a descricao do produto
 const criaDescricaoProduto = (descricao) => {
   const descricaoProduto = document.createElement('p');
 
@@ -33,6 +34,7 @@ const criaDescricaoProduto = (descricao) => {
   return descricaoProduto;
 };
 
+// Funçao para criar o elemento html com o preço do produto
 const criaPrecoProduto = (preco) => {
   const precoProduto = document.createElement('div');
   precoProduto.className = 'preco_produto';
@@ -61,6 +63,8 @@ const listaProduto = (srcImagen, descricaoProduto, precoDoProduto) => {
   divListagem.appendChild(infoProduto);
 };
 
+// Responsável por pegar cada elemento do Array de produtos e chamar a funçao
+// listaProduto que faz o preenchimento do html com todos os produtos
 const preencheListaDeProdutos = () => {
   divListagem.innerHTML = '';
   listagemDeProdutos.forEach((produto) => {
@@ -68,17 +72,21 @@ const preencheListaDeProdutos = () => {
   });
 };
 
+// Funçao que recebe o texto do input de filtro e faz a busca no array de produtos
+// para atualizar a página só com os elementos que contem a palavra procurada
 const filtrarProdutos = (Textofiltro) => {
   listagemDeProdutos = listagemDeProdutos.filter((produto) =>
-    produto.title.toUpperCase().includes(Textofiltro.toUpperCase())
-  );
+    produto.title.toUpperCase().includes(Textofiltro.toUpperCase()));
   preencheListaDeProdutos();
 };
 
+// Adicionando o Event Listener no botão serch (procurar)
 btnFiltro.addEventListener('click', () => {
   filtrarProdutos(filtro.value);
 });
 
+// Função responsável por receber o tipo de ordenação por preço
+// e atualizar a página seguindo a ordem solicitada
 const ordenaPorPreco = (ordem) => {
   if (ordem === 'menor-preco') {
     listagemDeProdutos.sort((a, b) => a.price - b.price);
@@ -89,18 +97,21 @@ const ordenaPorPreco = (ordem) => {
   preencheListaDeProdutos();
 };
 
+// Adicionando o Event Listener na caixa de seleção de ordenaçao por preço
 listaOrdenacao.addEventListener('change', async (event) => {
   await ordenaPorPreco(event.target.value);
 });
 
+// Função que faz a busca de dados na API pelo genero de cada produto
 const buscaProdutos = async (genero) => {
   const listaDeProdutos = await fetch(
-    `https://api.mercadolibre.com/sites/MLB/search?q=${genero}`
+    `https://api.mercadolibre.com/sites/MLB/search?q=${genero}`,
   );
   const listaDeProdutosJson = await listaDeProdutos.json();
   listagemDeProdutos = listaDeProdutosJson.results;
 };
 
+// Adicionando o Event Listener na caixa de seleção de generos dos produtos
 listaGenero.addEventListener('change', async (event) => {
   filtro.value = '';
   listaOrdenacao.value = 'relevancia';
@@ -108,7 +119,8 @@ listaGenero.addEventListener('change', async (event) => {
   preencheListaDeProdutos();
 });
 
+// Faz a carga inicial dos produtos na página com base em um genero geral
 window.onload = async () => {
-  await buscaProdutos('camisas-infantil');
+  await buscaProdutos('camisas');
   preencheListaDeProdutos();
 };
