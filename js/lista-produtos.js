@@ -102,7 +102,7 @@ const buscaProdutos = async (genero) => {
 };
 
 listaGenero.addEventListener('change', async (event) => {
-  filtro.value = "";
+  filtro.value = '';
   listaOrdenacao.value = 'relevancia';
   await buscaProdutos(event.target.value);
   preencheListaDeProdutos();
